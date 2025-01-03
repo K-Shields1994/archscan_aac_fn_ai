@@ -616,9 +616,17 @@ def start_gui() -> None:
     root_window.geometry("900x700")
     root_window.configure(bg="#f0f0f0")
 
+    # Main Frame
+    main_frame = tk.Frame(root_window, bg="#f0f0f0")
+    main_frame.pack(expand=True, fill="both")   
+    #main_frame.grid(row=1, column=0, padx=20, pady=20, sticky="nsew")
+    #main_frame.grid_columnconfigure(0, weight=1)
+
+
     # Header Frame
-    header_frame = tk.Frame(root_window, bg="#4a90e2", height=60)
-    header_frame.grid(row=0, column=0, columnspan=2, sticky="ew")
+    header_frame = tk.Frame(main_frame, bg="#4a90e2", height=60)
+    #header_frame.grid(row=0, column=0, columnspan=2, sticky="ew")
+    header_frame.pack(fill="x")
     title_label = tk.Label(
         header_frame,
         text="OCR & Text Filter Tool (Parallel)",
@@ -626,20 +634,20 @@ def start_gui() -> None:
         fg="white",
         bg="#4a90e2"
     )
-    title_label.grid(row=0, column=0, padx=10, pady=20)
-
-    # Main Frame
-    main_frame = tk.Frame(root_window, bg="#f0f0f0")
-    main_frame.grid(row=1, column=0, padx=20, pady=20, sticky="nsew")
-    main_frame.grid_columnconfigure(0, weight=1)
+    #title_label.grid(row=0, column=0, padx=10, pady=20, sticky='ew')
+    title_label.pack(pady=10)
 
     # Button Frame
     button_frame = tk.Frame(main_frame, bg="#f0f0f0")
-    button_frame.grid(row=0, column=0, pady=10)
+    #button_frame.grid(row=0, column=0, pady=10)
+    button_frame.pack(pady=10)
 
-    # Folder Selection Buttons
+    # Folder Selection Buttons and Path Labels
+    input_folder_frame = tk.Frame(button_frame, bg="#f0f0f0")
+    input_folder_frame.pack(side="left", padx=10)
+
     input_folder_btn = tk.Button(
-        button_frame,
+        input_folder_frame,
         text="Select Input Folder",
         command=select_input_folder,
         font=("Helvetica", 12),
@@ -648,10 +656,23 @@ def start_gui() -> None:
         padx=10,
         pady=5
     )
-    input_folder_btn.grid(row=0, column=0, padx=10)
+    #input_folder_btn.grid(row=0, column=0, padx=10)
+    input_folder_btn.pack(side="top", padx=10)
+
+    input_folder_label = tk.Label(
+        input_folder_frame,
+        text="No input folder selected",
+        font=("Helvetica", 12),
+        bg="#f0f0f0"
+    )
+    #input_folder_label.grid(row=1, column=0, pady=5)
+    input_folder_label.pack(side='top',pady=5) 
+
+    output_folder_frame = tk.Frame(button_frame, bg="#f0f0f0")
+    output_folder_frame.pack(side="left", padx=10)
 
     output_folder_btn = tk.Button(
-        button_frame,
+        output_folder_frame,
         text="Select Output Folder",
         command=select_output_folder,
         font=("Helvetica", 12),
@@ -660,37 +681,34 @@ def start_gui() -> None:
         padx=10,
         pady=5
     )
-    output_folder_btn.grid(row=0, column=1, padx=10)
+    #output_folder_btn.grid(row=0, column=1, padx=10)
+    output_folder_btn.pack(side="top", padx=10)
+
+    output_folder_label = tk.Label(
+        output_folder_frame,
+        text="No output folder selected",
+        font=("Helvetica", 12),
+        bg="#f0f0f0"
+    )
+    #output_folder_label.grid(row=1, column=1, pady=5)
+    output_folder_label.pack(side='top',pady=5)
+
+    run_button_frame = tk.Frame(button_frame, bg="#f0f0f0") 
+    run_button_frame.pack(side="left", padx=10)
 
     # Run Button
     run_button = tk.Button(
-        button_frame,
+        run_button_frame,
         text="Run",
         command=run_processing,
         font=("Helvetica", 12),
         bg="#4a90e2",
         fg="white",
-        padx=10,
-        pady=5
+        padx=20,
+        pady=10
     )
-    run_button.grid(row=0, column=2, padx=10)
-
-    # Folder Path Labels
-    input_folder_label = tk.Label(
-        button_frame,
-        text="No input folder selected",
-        font=("Helvetica", 12),
-        bg="#f0f0f0"
-    )
-    input_folder_label.grid(row=1, column=0, pady=5)
-
-    output_folder_label = tk.Label(
-        button_frame,
-        text="No output folder selected",
-        font=("Helvetica", 12),
-        bg="#f0f0f0"
-    )
-    output_folder_label.grid(row=1, column=1, pady=5)
+    #run_button.grid(row=0, column=2, padx=10)
+    run_button.pack(side="left", padx=10)
 
     # Output Text Area
     output_text_box = scrolledtext.ScrolledText(
@@ -700,7 +718,8 @@ def start_gui() -> None:
         height=25,
         font=("Courier", 10)
     )
-    output_text_box.grid(row=1, column=0, pady=10)
+    #output_text_box.grid(row=1, column=0, pady=10)
+    output_text_box.pack(pady=10)
 
     # Status Label
     status_label = tk.Label(
@@ -710,12 +729,14 @@ def start_gui() -> None:
         bg="#f0f0f0",
         fg="#4a90e2"
     )
-    status_label.grid(row=2, column=0, pady=5)
+    #status_label.grid(row=2, column=0, pady=5)
+    status_label.pack(pady=5)   
 
     # Footer Frame with Progress Bar
     footer_frame = tk.Frame(main_frame, bg="#f0f0f0", height=40)
-    footer_frame.grid(row=3, column=0, columnspan=2, pady=10, sticky="ew")
-    footer_frame.grid_columnconfigure(0, weight=1)
+    #footer_frame.grid(row=3, column=0, columnspan=2, pady=10, sticky="ew")
+    #footer_frame.grid_columnconfigure(0, weight=1)
+    footer_frame.pack(pady=10)  
 
     progress_bar = ttk.Progressbar(
         footer_frame,
@@ -723,7 +744,8 @@ def start_gui() -> None:
         mode="indeterminate",
         length=400
     )
-    progress_bar.grid(row=0, column=0, pady=10)
+    #progress_bar.grid(row=0, column=0, pady=10)
+    progress_bar.pack(pady=10)  
 
     root_window.mainloop()
 
